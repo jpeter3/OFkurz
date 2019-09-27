@@ -1,0 +1,8 @@
+#!/bin/sh
+
+rm -rf log.*
+rm -rf 0.*
+rm -rf postProc*
+cd constant
+rm -rf polyMesh
+#------------------------------------------------------------------------------

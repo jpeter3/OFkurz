@@ -1,0 +1,75 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      omega;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 -1 0 0 0 0];
+
+internalField   uniform 2.25;
+
+boundaryField
+{
+    inlet
+    {
+        type    fixedValue;
+        value   $internalField;
+    }
+
+    outlet
+    {
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
+    }
+
+    ground
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+
+
+    sym
+    {
+        type            symmetry;
+    }
+    
+    "solid|frontTire|frontRim|rearTire|rearRim|frontWing|rearWingMain|rearWingSide|rearWingWinglet1|rearWingWinglet2|monococ|rearWingMain|difusor|sideDuct|sideWing"
+    
+    {
+        type            omegaWallFunction;
+        value           $internalField;
+    }
+        
+    atmosphere
+    {
+        type    fixedValue;
+        value   $internalField;
+    }
+        "(bIn)"
+    {
+        type            inletOutlet;
+        inletValue      $internalField;
+        value           $internalField;
+    }
+    
+    "(bOut1|bOut2|bOut3)"
+    {
+        type    fixedValue;
+        value   uniform 78;
+    }
+}
+
+
+// ************************************************************************* //
