@@ -1,0 +1,96 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    inlet
+    {
+        type    fixedValue;
+        value   uniform (0 15 0);
+    }
+
+    outlet
+    {
+        type            inletOutlet;
+        inletValue      uniform (0 0 0);
+        value           $internalField;
+    }
+
+    ground
+    {
+        type     movingWallVelocity;
+        value    uniform (0 15 0);
+    }
+
+    sym
+    {
+        type            symmetry;
+    }
+    
+    "frontTire|frontRim"
+    {
+        type rotatingWallVelocity;
+        origin (0.697445 0.560 0.23241);
+        axis (1 0 0);
+        omega 64.541; //rad/s
+        value uniform (0 0 0);
+        
+    }
+    
+    "rearTire|rearRim"
+    {
+        type rotatingWallVelocity;
+        origin (0.6929 2.1096755 0.23241);
+        axis (1 0 0);
+        omega 64.541; //rad/s
+        value uniform (0 0 0);
+        
+    }
+    
+    "solid|frontWing|rearWingMain|rearWingSide|rearWingWinglet1|rearWingWinglet2|monococ|rearWingMain|difusor|sideDuct|sideWing"
+    {
+        type    noSlip;
+    }
+        
+    atmosphere
+    {
+        type     fixedValue;
+        value    uniform (0 15 0);
+    }
+    
+    "(bIn)"
+    {
+    type        flowRateOutletVelocity;
+    volumetricFlowRate    0.15;        // Volumetric/mass flow rate [m3/s or kg/s]
+    value       uniform (0 0 0); // placeholder
+    }
+    
+    "(bOut1|bOut2|bOut3)"
+    {
+    type        flowRateInletVelocity;
+    volumetricFlowRate    0.05;        // Volumetric/mass flow rate [m3/s or kg/s]
+    value       uniform (0 0 0); // placeholder
+    }
+    
+}
+
+
+// ************************************************************************* //

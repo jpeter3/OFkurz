@@ -1,0 +1,16 @@
+#!/bin/sh
+
+rm -rf 30
+rm -rf mesh*
+rm -rf proc*
+rm -rf log.*
+rm -rf 0
+rm -rf postProc*
+cd constant
+rm -rf polyMesh
+cd triSurface
+rm -rf *
+cd ..
+cd stl
+rm -rf formula.stl
+#------------------------------------------------------------------------------

@@ -1,0 +1,43 @@
+#!/bin/sh
+cd ${0%/*} || exit 1    # Run from this directory
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+echo writing stl file to triSurface ...
+cd constant/stl
+cat * > formula.stl
+cd ..
+cd ..
+cp -r constant/stl/formula.stl constant/triSurface/formula.stl
+
+echo building mesh ...
+runApplication surfaceFeatureExtract
+runApplication blockMesh
+runApplication decomposePar
+foamJob -parallel -screen snappyHexMesh &> log.snappyHexMesh
+wait
+
+echo move mesh and postProcess ...
+reconstructParMesh
+rm -rf constant/polyMesh
+cp -r 0.02/polyMesh constant/polyMesh
+
+
+
+
+mkdir meshes
+mv 0.0* meshes
+
+runApplication transformPoints -scale '(0.001 0.001 0.001)'
+runApplication checkMesh -latestTime
+
+rm -rf proc*
+
+mkdir meshForSimscale
+cd meshForSimscale
+mkdir constant
+cd ..
+cp -r constant/polyMesh meshForSimscale/constant/polyMesh
+
+#------------------------------------------------------------------------------

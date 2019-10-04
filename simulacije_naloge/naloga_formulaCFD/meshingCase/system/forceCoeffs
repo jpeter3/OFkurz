@@ -1,0 +1,72 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+   =========                                                                      
+   \\      /  F ield            OpenFOAM: The Open Source CFD Toolbox             
+    \\    /   O peration        Version:  5                                       
+     \\  /    A nd              Web:      www.OpenFOAM.org                        
+      \\/     M anipulation                                                       
+\*---------------------------------------------------------------------------*/
+
+forceCoeffsFrontWing
+{
+    type            forceCoeffs;
+
+    libs            ("libforces.so");
+
+    writeControl    timeStep;
+    timeInterval    1;
+
+    log             yes;
+
+    patches         (frontWing);
+    rho             rhoInf;      // Indicates incompressible
+    rhoInf          1;           // Redundant for incompressible
+    liftDir         (0 0 1);
+    dragDir         (0 1 0);
+    CofR            (0 1.334 0);  // Axle midpoint on ground
+    pitchAxis       (1 0 0);
+    magUInf         15;
+    lRef            1.55;        // Wheelbase length
+    Aref            0.49;        // Estimated
+    /*
+    binData
+    {
+        nBin        20;          // output data into 20 bins
+        direction   (1 0 0);     // bin direction
+        cumulative  yes;
+    }
+    */
+}
+
+forceCoeffsFormula
+{
+    type            forceCoeffs;
+
+    libs            ("libforces.so");
+
+    writeControl    timeStep;
+    timeInterval    1;
+
+    log             yes;
+
+    patches         (solid  frontTire  frontRim  rearTire  rearRim  frontWing  rearWingMain  rearWingSide  rearWingWinglet1  rearWingWinglet2  monococ  rearWingMain  difusor  sideDuct  sideWing);
+    rho             rhoInf;      // Indicates incompressible
+    rhoInf          1;           // Redundant for incompressible
+    liftDir         (0 0 1);
+    dragDir         (0 1 0);
+    CofR            (0 1.334 0);  // Axle midpoint on ground
+    pitchAxis       (1 0 0);
+    magUInf         15;
+    lRef            1.55;        // Wheelbase length
+    Aref            0.57;        // Estimated
+    /*
+    binData
+    {
+        nBin        20;          // output data into 20 bins
+        direction   (1 0 0);     // bin direction
+        cumulative  yes;
+    }
+    */
+}
+
+
+// ************************************************************************* //
